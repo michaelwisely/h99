@@ -51,3 +51,33 @@ diff_select' n ms gen = (item : rest, gen'')
 
 diff_selectIO :: Int -> Int -> IO [Int]
 diff_selectIO n m = getStdRandom $ diff_select n m
+
+-- Problem 25
+-- |Finds and deletes the first instance of an item in the list,
+-- returning it in a tuple with the list of remaining items
+findAndRemove :: Eq a => a -> [a] -> (Maybe a, [a])
+findAndRemove _ [] = (Nothing, [])
+findAndRemove a (x:xs)
+  | a == x = (Just a, xs)
+  | otherwise = let (match, rest) = findAndRemove a xs in (match, x : rest)
+
+rnd_permu :: RandomGen g => [a] -> g -> ([a], g)
+rnd_permu []  gen = ([], gen)
+rnd_permu lst gen = (item : rest, gen'')
+  where
+    (index, gen') = randomR (0, (length lst) - 1) gen
+    (item, remaining) = removeAt (index+1) lst
+    (rest, gen'') = rnd_permu remaining gen'
+
+rnd_permuIO :: [a] -> IO [a]
+rnd_permuIO = getStdRandom . rnd_permu
+
+-- Problem 26
+-- Works with GHCI and not Hugs :/
+-- combinations :: Int -> [a] -> [[a]]
+-- combinations n = filter (\x -> (length x) == n) . subsequences
+
+combinations :: Int -> [a] -> [[a]]
+combinations 0 _  = [ [] ]
+combinations n xs = [ y:ys | y:xs' <- tails xs
+                           , ys <- combinations (n-1) xs']
