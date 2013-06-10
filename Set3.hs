@@ -40,14 +40,14 @@ diff_select :: RandomGen g => Int -> Int -> g -> ([Int], g)
 diff_select n m gen = diff_select' n [1..m] gen
 
 diff_select' :: RandomGen g => Int -> [Int] -> g -> ([Int], g)
-diff_select' 0  _ gen = observe "zero" ([], gen)
+diff_select' 0  _ gen = ([], gen)
 diff_select' _ [] gen = error "No items to choose from"
-diff_select' n ms gen = observe "otherwise" (item : rest, gen'')
+diff_select' n ms gen = (item : rest, gen'')
   where
-    (index, gen') = observe "random" randomR (0, (length ms) - 1) gen
-    item = observe "item" ms !! index
-    remaining = observe "remaining" delete item ms
-    (rest, gen'') = observe "recurse" diff_select' (n - 1) remaining gen'
+    (index, gen') = randomR (0, (length ms) - 1) gen
+    item = ms !! index
+    remaining = delete item ms
+    (rest, gen'') = diff_select' (n - 1) remaining gen'
 
 diff_selectIO :: Int -> Int -> IO [Int]
 diff_selectIO n m = getStdRandom $ diff_select n m
