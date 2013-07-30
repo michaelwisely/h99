@@ -1,3 +1,4 @@
+-- -*- mode: Haskell -*-
 -- First set of the 99 Haskell programming problems
 
 module Set1 where

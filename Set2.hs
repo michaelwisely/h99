@@ -1,3 +1,4 @@
+-- -*- mode: Haskell -*-
 -- Second set of the 99 Haskell programming problems
 
 module Set2 where

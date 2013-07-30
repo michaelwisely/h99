@@ -1,3 +1,4 @@
+-- -*- mode: Haskell -*-
 module Set3 where
 
 import Set2
